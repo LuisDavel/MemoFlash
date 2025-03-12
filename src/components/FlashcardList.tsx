@@ -127,18 +127,20 @@ export function FlashcardList() {
       
       {/* Mensagem de exclusão com sucesso e botão para desfazer */}
       {deleteMessage.show && (
-        <div className="mb-6 bg-gray-800 text-white p-4 rounded-lg shadow-lg toast-undo fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-between min-w-80">
+        <div className="mb-6 bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 rounded-2xl shadow-md toast-undo fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-between min-w-96 border border-gray-700/30">
           <div className="flex items-center">
-            <svg className="h-5 w-5 text-red-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
+            <div className="bg-red-500/20 p-2 rounded-full mr-3">
+              <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
             <p className="text-sm font-medium">{deleteMessage.message}</p>
           </div>
           <button 
             onClick={handleUndoDelete}
-            className="ml-4 px-3 py-1 text-xs bg-white text-gray-800 rounded hover:bg-gray-200 transition-colors font-medium flex items-center"
+            className="ml-4 px-4 py-1.5 text-xs bg-white text-gray-800 rounded-full hover:bg-gray-200 transition-all duration-200 font-medium flex items-center group"
           >
-            <svg className="h-3 w-3 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="h-3.5 w-3.5 mr-1.5 transition-transform duration-200 group-hover:-translate-x-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
             </svg>
             Desfazer
@@ -147,14 +149,19 @@ export function FlashcardList() {
       )}
       
       {showConfirmation && (
-        <div className="fixed inset-0 bg-gray-700/50 bg-opacity-15 rounded-lg backdrop-blur-xs flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">Confirmar exclusão</h3>
-            <p className="text-gray-700 mb-6">Tem certeza que deseja excluir todos os flashcards? Esta ação não pode ser desfeita.</p>
-            <div className="flex justify-end space-x-3">
+        <div className="fixed inset-0 bg-gray-700/40 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-2xl shadow-md max-w-md w-full scale-in border border-gray-100">
+            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-full bg-red-50">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold mb-4 text-center">Confirmar exclusão</h3>
+            <p className="text-gray-600 mb-8 text-center">Tem certeza que deseja excluir todos os flashcards? Esta ação não pode ser desfeita.</p>
+            <div className="flex justify-center space-x-4">
               <button
                 onClick={() => setShowConfirmation(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="px-6 py-3 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors font-medium flex-1"
               >
                 Cancelar
               </button>
@@ -163,7 +170,7 @@ export function FlashcardList() {
                   clearAllFlashcards();
                   setShowConfirmation(false);
                 }}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                className="px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all flex-1 font-medium"
               >
                 Excluir Todos
               </button>
@@ -172,7 +179,7 @@ export function FlashcardList() {
         </div>
       )}
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredFlashcards.map(flashcard => (
           <FlashcardItem 
             key={flashcard.id} 
@@ -305,7 +312,7 @@ function FlashcardItem({ flashcard, onDelete }: FlashcardItemProps) {
         
         {/* Botão de exclusão com animação suave */}
         <button 
-          className={`absolute top-3 right-3 p-2 bg-white text-red-500 rounded-full shadow-md z-10 hover:bg-red-500 hover:text-white transition-all transform ${isHovering ? 'opacity-100 scale-100 pulse-animation' : 'opacity-0 scale-75'}`}
+          className={`absolute top-3 right-3 p-2.5 bg-white text-red-500 rounded-full shadow-sm z-10 hover:bg-red-500 hover:text-white transition-all transform ${isHovering ? 'opacity-100 scale-100 pulse-animation' : 'opacity-0 scale-75'}`}
           onClick={handleDeleteClick}
           title="Excluir flashcard"
           aria-label="Excluir flashcard"
@@ -319,31 +326,31 @@ function FlashcardItem({ flashcard, onDelete }: FlashcardItemProps) {
       {/* Modal de confirmação de exclusão com design melhorado */}
       {showDeleteConfirm && (
         <div 
-          className="fixed inset-0 bg-gray-700/50 bg-opacity-15 rounded-lg backdrop-blur-xs flex items-center justify-center z-50"
+          className="fixed inset-0 bg-gray-700/25 backdrop-blur-sm flex items-center justify-center z-50"
           onClick={cancelDelete}
         >
           <div 
-            className="bg-white p-6 rounded-lg shadow-xl max-w-xs w-full modal-confirm"
+            className="bg-white p-8 rounded-2xl shadow-md max-w-sm w-full modal-confirm border border-gray-100"
             onClick={(e) => e.stopPropagation()} 
           >
-            <div className="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full bg-red-100">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-full bg-red-50">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-center text-gray-800 mb-2">Excluir Flashcard</h3>
-            <p className="text-sm text-center text-gray-600 mb-6">
+            <h3 className="text-xl font-bold text-center text-gray-800 mb-3">Excluir Flashcard</h3>
+            <p className="text-center text-gray-600 mb-8">
               Esta ação não pode ser desfeita. Tem certeza que deseja excluir este flashcard?
             </p>
-            <div className="flex justify-center space-x-3">
+            <div className="flex justify-center space-x-4">
               <button
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors font-medium"
+                className="flex-1 px-6 py-3 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors font-medium"
                 onClick={cancelDelete}
               >
                 Cancelar
               </button>
               <button
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors font-medium"
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all font-medium"
                 onClick={confirmDelete}
               >
                 Excluir

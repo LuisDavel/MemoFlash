@@ -6,6 +6,7 @@ export function FlashcardForm() {
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const addFlashcard = useFlashcardStore(state => state.addFlashcard);
   
@@ -18,106 +19,101 @@ export function FlashcardForm() {
       return;
     }
     
-    addFlashcard(question, answer);
+    setIsSubmitting(true);
     
-    setQuestion('');
-    setAnswer('');
-    setError('');
-    setSuccess(true);
-    
-    // Oculta a mensagem de sucesso após 3 segundos
+    // Simulação de processamento para mostrar o estado de carregamento
     setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
+      addFlashcard(question, answer);
+      
+      setQuestion('');
+      setAnswer('');
+      setError('');
+      setSuccess(true);
+      setIsSubmitting(false);
+      
+      // Oculta a mensagem de sucesso após 3 segundos
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    }, 600);
   };
   
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mt-8 p-4 bg-blue-50 rounded-md border border-blue-100 mb-6">
-        <h3 className="text-md font-medium text-blue-800 mb-2">💡 Dica para melhores flashcards:</h3>
-        <p className="text-sm text-blue-700">
-          Crie perguntas específicas e respostas claras. Flashcards mais eficazes possuem uma única ideia por cartão.
+    <div className="max-w-2xl mx-auto py-2">
+      <div className="mb-8 bg-blue-50 border border-blue-100 p-4 rounded-lg">
+        <p className="text-blue-700 text-sm">
+          <span className="font-medium">💡 Dica: </span> 
+          Crie perguntas específicas e respostas claras. Um flashcard eficaz tem uma única ideia.
         </p>
       </div>
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Crie seu Flashcard</h2>
+      
+      <h2 className="text-xl font-bold mb-6 text-gray-700">Criar novo flashcard</h2>
       
       {error && (
-        <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded animate-fade-in">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium">{error}</p>
-            </div>
-          </div>
+        <div className="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm">
+          {error}
         </div>
       )}
       
       {success && (
-        <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded animate-fade-in">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium">Flashcard criado com sucesso!</p>
-            </div>
-          </div>
+        <div className="mb-6 p-3 bg-green-50 border border-green-100 text-green-600 rounded-lg text-sm flex items-center justify-between">
+          <span>Flashcard criado com sucesso!</span>
+          <span className="text-xs bg-green-100 py-1 px-2 rounded-full text-green-700">Novo</span>
         </div>
       )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="question" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-2">
+          <label htmlFor="question" className="block text-sm font-medium text-gray-600">
             Pergunta
           </label>
-          <div className="relative rounded-md shadow-sm">
-            <textarea
-              id="question"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              rows={3}
-              placeholder="O que você quer lembrar?"
-            />
-          </div>
+          <textarea
+            id="question"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            className="block w-full px-3 py-2 border border-gray-200 rounded-lg shadow-xs focus:ring-1 focus:ring-indigo-300 focus:border-indigo-300 transition-all resize-none"
+            rows={3}
+            placeholder="O que você quer lembrar?"
+          />
         </div>
         
-        <div>
-          <label htmlFor="answer" className="block text-sm font-medium text-gray-700 mb-1">
+        <div className="space-y-2">
+          <label htmlFor="answer" className="block text-sm font-medium text-gray-600">
             Resposta
           </label>
-          <div className="relative rounded-md shadow-sm">
-            <textarea
-              id="answer"
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              className="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-              rows={3}
-              placeholder="A resposta para a sua pergunta"
-            />
-          </div>
+          <textarea
+            id="answer"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            className="block w-full px-3 py-2 border border-gray-200 rounded-lg shadow-xs focus:ring-1 focus:ring-indigo-300 focus:border-indigo-300 transition-all resize-none"
+            rows={3}
+            placeholder="A resposta para a sua pergunta"
+          />
         </div>
         
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end pt-2">
           <button
             type="submit"
-            className="btn btn-primary inline-flex items-center px-8 py-3"
+            disabled={isSubmitting}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-md font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-indigo-500 transition-all disabled:opacity-70 disabled:cursor-wait"
           >
-            <svg className="mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-            </svg>
-            Criar Flashcard
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Criando...
+              </>
+            ) : (
+              <>
+               
+                <span>Criar</span>
+              </>
+            )}
           </button>
         </div>
       </form>
-      
-      
     </div>
   );
 } 
