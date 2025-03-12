@@ -17,7 +17,6 @@ export function FlashcardList() {
     message: ''
   });
   
-  // Guarda referência ao timeout para poder cancelá-lo se o usuário desfizer
   const deleteTimeoutRef = useRef<number | null>(null);
   
   const filteredFlashcards = searchTerm
@@ -27,24 +26,18 @@ export function FlashcardList() {
       )
     : flashcards;
   
-  // Função para restaurar um flashcard excluído
   const handleUndoDelete = useCallback(() => {
     if (deleteMessage.deletedCard && deleteTimeoutRef.current) {
-      // Cancelar o timeout para limpar a mensagem
       window.clearTimeout(deleteTimeoutRef.current);
       deleteTimeoutRef.current = null;
       
-      // Adicionar o flashcard de volta à store
-      // Esta chamada precisa passar pela interface do Zustand para adicionar um flashcard existente
       const flashcardStore = useFlashcardStore.getState();
       
-      // Adicionar o flashcard de volta com seus dados originais
       flashcardStore.addFlashcard(
         deleteMessage.deletedCard.question,
         deleteMessage.deletedCard.answer
       );
       
-      // Resetar a mensagem de exclusão
       setDeleteMessage({
         show: false,
         message: ''
@@ -52,22 +45,17 @@ export function FlashcardList() {
     }
   }, [deleteMessage]);
   
-  // Função para excluir flashcard com animação e feedback
   const handleDeleteFlashcard = useCallback((id: string, question: string) => {
-    // Guardar uma cópia do flashcard antes de remover
     const deletedCard = {...flashcards.find(card => card.id === id)!};
     
-    // Remover o flashcard
     removeFlashcard(id);
     
-    // Mostrar mensagem de feedback com opção para desfazer
     setDeleteMessage({
       show: true,
       message: `Flashcard excluído com sucesso.`,
       deletedCard: deletedCard as any
     });
     
-    // Ocultar a mensagem após 5 segundos (tempo maior para permitir desfazer)
     if (deleteTimeoutRef.current) {
       window.clearTimeout(deleteTimeoutRef.current);
     }
@@ -125,7 +113,6 @@ export function FlashcardList() {
         </div>
       </div>
       
-      {/* Mensagem de exclusão com sucesso e botão para desfazer */}
       {deleteMessage.show && (
         <div className="mb-6 bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4 rounded-2xl shadow-md toast-undo fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-between min-w-96 border border-gray-700/30">
           <div className="flex items-center">
@@ -227,25 +214,21 @@ function FlashcardItem({ flashcard, onDelete }: FlashcardItemProps) {
     }
   }
   
-  // Função para lidar com a exclusão com confirmação
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowDeleteConfirm(true);
   };
   
-  // Função para confirmar a exclusão
   const confirmDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsDeleting(true);
     
-    // Adicionar tempo para a animação ocorrer antes de realmente excluir
     setTimeout(() => {
       onDelete();
       setShowDeleteConfirm(false);
     }, 300);
   };
   
-  // Função para cancelar a exclusão
   const cancelDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowDeleteConfirm(false);
@@ -310,7 +293,6 @@ function FlashcardItem({ flashcard, onDelete }: FlashcardItemProps) {
           </div>
         </div>
         
-        {/* Botão de exclusão com animação suave */}
         <button 
           className={`absolute top-3 right-3 p-2.5 bg-white text-red-500 rounded-full shadow-sm z-10 hover:bg-red-500 hover:text-white transition-all transform ${isHovering ? 'opacity-100 scale-100 pulse-animation' : 'opacity-0 scale-75'}`}
           onClick={handleDeleteClick}
@@ -323,7 +305,6 @@ function FlashcardItem({ flashcard, onDelete }: FlashcardItemProps) {
         </button>
       </div>
       
-      {/* Modal de confirmação de exclusão com design melhorado */}
       {showDeleteConfirm && (
         <div 
           className="fixed inset-0 bg-gray-700/25 backdrop-blur-sm flex items-center justify-center z-50"

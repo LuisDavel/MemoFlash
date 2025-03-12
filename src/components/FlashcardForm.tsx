@@ -21,7 +21,6 @@ export function FlashcardForm() {
     
     setIsSubmitting(true);
     
-    // Simulação de processamento para mostrar o estado de carregamento
     setTimeout(() => {
       addFlashcard(question, answer);
       
@@ -31,7 +30,6 @@ export function FlashcardForm() {
       setSuccess(true);
       setIsSubmitting(false);
       
-      // Oculta a mensagem de sucesso após 3 segundos
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
@@ -107,7 +105,6 @@ export function FlashcardForm() {
               </>
             ) : (
               <>
-               
                 <span>Criar</span>
               </>
             )}
