@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FlashcardForm } from '@/components/FlashcardForm';
 import { FlashcardList } from '@/components/FlashcardList';
 import { StudyMode } from '@/components/StudyMode';
+import { LucideSquarePen } from 'lucide-react';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'create' | 'list' | 'study'>('create');
@@ -13,9 +14,14 @@ export default function Home() {
       <main className="container mx-auto px-4 py-10 relative z-10">
         <div className="max-w-4xl mx-auto mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
-            <h1 className="text-3xl font-bold  bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4 sm:mb-0">
-              My Flashcard's
-            </h1>
+            <div className="flex items-center">
+              <div className="rounded-md p-1">
+                <LucideSquarePen className='w-8 h-8 text-indigo-600' />
+              </div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4 sm:mb-0 ml-2">
+                Memo Flash
+              </h1>
+            </div>
             
             <nav className="nav-simple flex space-x-2 bg-white p-1.5 rounded-lg shadow-sm border border-gray-100">
               <button
@@ -60,7 +66,7 @@ export default function Home() {
         
         <footer className="text-center text-gray-500 text-sm pb-6 mt-6">
           <p className="text-sm text-gray-400">
-            Criado por Luis Davel 💜 {new Date().getFullYear()}
+            Criado por <a href="https://luisdavel.com" target="_blank" rel="noopener noreferrer">Luis Davel</a> 💜 {new Date().getFullYear()}
           </p>
         </footer>
       </main>
